@@ -4,9 +4,11 @@
 
 def add_integer(a, b=98):
     """Function that returns the addition of a + b
+
     Args:
         a: should be an int. if not throw error
         b: second int. if not throw error. default val is 98.
+
     Returns:
         The addition of a + b or a raised TypeError
     """
