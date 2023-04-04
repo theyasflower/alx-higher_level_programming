@@ -1,1 +1,1 @@
-Pythom Inheritance
+Python Inheritance
