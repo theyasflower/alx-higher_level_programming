@@ -1,30 +1,23 @@
 #!/usr/bin/python3
-"""This script communicates with an API and gets a JSON formatted response"""
+"""Sends a POST request to http://0.0.0.0:5000/search_user with a given letter.
+Usage: ./8-json_api.py <letter>
+  - The letter is sent as the value of the variable `q`.
+  - If no letter is provided, sends `q=""`.
+"""
+import sys
 import requests
-from sys import argv
-
-
-def get_request_status(letter: str):
-    payload = {}
-    payload["q"] = letter
-
-    url = "http://0.0.0.0:5000/search_user"
-    req = requests.post(url, data=payload)
-
-    try:
-        resp_dict = req.json()
-        if resp_dict:
-            print("[{}] {}".format(resp_dict.get("id"), resp_dict.get("name")))
-        else:
-            print("No result")
-    except requests.exceptions.JSONDecodeError:
-        print("Not a valid JSON")
 
 
 if __name__ == "__main__":
+    letter = "" if len(sys.argv) == 1 else sys.argv[1]
+    payload = {"q": letter}
+
+    r = requests.post("http://0.0.0.0:5000/search_user", data=payload)
     try:
-        letter = argv[1]
-    except IndexError:
-        letter = ""
-    finally:
-        get_request_status(letter)
+        response = r.json()
+        if response == {}:
+            print("No result")
+        else:
+            print("[{}] {}".format(response.get("id"), response.get("name")))
+    except ValueError:
+        print("Not a valid JSON")
